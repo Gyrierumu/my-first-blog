@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crie sua review</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    {% load custom_filters %}
+  </head>
+</head>
+<body>
+    <div class="container mx-auto py-8">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl font-bold mb-4">Criar Nova Review</h2>
+            <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    {{ form.media_type.label_tag }}
+                    {{ form.media_type|add_class:"block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" }}
+                </div>
+                <div>
+                    {{ form.media_title.label_tag }}
+                    {{ form.media_title|add_class:"block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" }}
+                </div>
+                <div>
+                    {{ form.review_title.label_tag }}
+                    {{ form.review_title|add_class:"block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" }}
+                </div>
+                <div>
+                    {{ form.review_text.label_tag }}
+                    {{ form.review_text|add_class:"block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" }}
+                </div>
+                <div>
+                   <!-- In create_review.html -->
+<div>
+    <label>Avaliação</label>
+    <div class="flex items-center">
+        <input 
+            type="range" 
+            name="rating" 
+            min="0.5" 
+            max="5" 
+            step="0.5" 
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        >
+        <span id="ratingDisplay" class="ml-4 text-xl"></span>
+    </div>
+</div>
+
+<script>
+    const ratingInput = document.querySelector('input[name="rating"]');
+    const ratingDisplay = document.getElementById('ratingDisplay');
+
+    ratingInput.addEventListener('input', function() {
+        const rating = this.value;
+        ratingDisplay.innerHTML = '★'.repeat(Math.floor(rating)) + 
+                                   (rating % 1 >= 0.5 ? '½' : '');
+    });
+</script>
+                </div>
+                <div>
+                    {{ form.episode_number.label_tag }}
+                    {{ form.episode_number|add_class:"block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" }}
+                </div>
+                <div>
+                    {{ form.media_image.label_tag }}
+                    {{ form.media_image|add_class:"block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" }}
+                </div>
+                <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+                    Postar Review
+                </button>
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

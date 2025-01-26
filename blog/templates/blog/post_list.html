@@ -1,25 +1,57 @@
-
+{% extends 'blog/base.html' %}
+{% load custom_filters %}
 <html>
     <head>
-        <title>Django Girls blog</title>
+        <title>Django Girls blog</title>]
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  </head>
         
         
         
     </head>
     <body>
-        {% extends 'blog/base.html' %}
         
         {% block content %}
-        {% for post in posts %}
-            <div class="post">
-                <div class="date">
-                    {{ post.published_date }}
-                </div>
-                <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-                <p>{{ post.text|linebreaksbr }}</p>
+        
+        
+        <div class="container mx-auto py-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Posts</h2>
+                {% if user.is_authenticated %}
+                <a href="{% url 'create_review' %}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                    Criar Nova Review
+                </a>
+                {% endif %}
+            </div>
+            
+            {% for item in items %}
+            <div class="mb-4 p-4 border rounded">
+                {% if item|get_class_name == 'Post' %}
+    <div class="post">
+        <div class="date">{{ item.published_date }}</div>
+        <div class="flex justify-between items-center">
+            <h2><a href="{% url 'post_detail' pk=item.pk %}">{{ item.title }}</a></h2>
+            {% if user.is_authenticated and user == item.author %}
+            <a href="{% url 'delete_post' pk=item.pk %}" class="text-red-500 hover:text-red-700">
+                Deletar
+            </a>
+            {% endif %}
+        </div>
+        <p>{{ item.text|linebreaksbr }}</p>
+    </div>
+                {% elif item|get_class_name == 'Review' %}
+                    <div class="review">
+                        <div class="date">{{ item.created_date }}</div>
+                        <h3>Review by {{ item.author.username }}</h3>
+                        <p>{{ item.media_title }} ({{ item.media_type }})</p>
+                        <p>{{ item.review_title }}</p>
+                        <p>Nota: {{ item.rating }}/10</p>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     {% endblock %}
+    </body>
                
     </body>
 </html>

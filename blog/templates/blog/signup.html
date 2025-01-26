@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Criar Nova Conta
+            </h2>
+        </div>
+        <form method="post" class="mt-8 space-y-6">
+            {% csrf_token %}
+            {% for field in form %}
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">
+                    {{ field.label_tag }}
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                <p class="text-red-500 text-xs italic">{{ field.errors }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div>
+                <button type="submit" 
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Cadastrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
